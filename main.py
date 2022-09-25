@@ -58,7 +58,6 @@ async def get_timetable(ctx, *, date: str = None):
 **Generating the screenshot...**
     """
     )
-    date_start_week, date_end_week = scrapper.get_date_week(driver=driver)
     scrapper.get_screenshot(driver=driver)
     await message.edit(
         content="""
@@ -70,7 +69,7 @@ async def get_timetable(ctx, *, date: str = None):
     await message.delete(delay=2)
     file = discord.File("timetable.png")
     em = discord.Embed(
-        title=":date: Timetable", description=f"From __{date_start_week}__ to __{date_end_week}__.", timestamp=ctx.message.created_at, color=0x5570FE
+        title=":date: Timetable", timestamp=ctx.message.created_at, color=0x5570FE
     )
     em.set_image(url="attachment://timetable.png")
     em.set_footer(text=ctx.author)
