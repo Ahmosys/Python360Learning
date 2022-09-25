@@ -39,7 +39,7 @@ async def on_command_error(ctx, error):
     alias=["edt", "schedule"],
     description="Retrieve the timetable of the current week.",
 )
-@commands.cooldown(1, 60, commands.BucketType.user)
+@commands.cooldown(1, 30, commands.BucketType.user)
 async def get_timetable(ctx, *, date: str = None):
     driver, driver_wait = scrapper.init()
     message = await ctx.send("**Attempt to login to SSO of 360Learning...**")
@@ -59,6 +59,14 @@ async def get_timetable(ctx, *, date: str = None):
     """
     )
     scrapper.get_screenshot(driver=driver)
+    scrapper.get_timetable_page(driver=driver, driver_wait=driver_wait, date_value=date)
+    await message.edit(
+        content="""
+**Attempt to login to SSO of 360Learning  ✅**
+**Switch from homepage to timetable page  ✅**
+**Generating the screenshot  ✅**
+    """
+    )
     await message.delete(delay=2)
     file = discord.File("timetable.png")
     em = discord.Embed(
