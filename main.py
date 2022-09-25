@@ -46,16 +46,16 @@ async def get_timetable(ctx, *, date: str = None):
     scrapper.login(driver=driver)
     await message.edit(
         content="""
-    **Attempt to login to SSO of 360Learning ✅**
-    **Switch from homepage to timetable page...**
+**Attempt to login to SSO of 360Learning  ✅**
+**Switch from homepage to timetable page...**
     """
     )
     scrapper.get_timetable_page(driver=driver, driver_wait=driver_wait, date_value=date)
     await message.edit(
         content="""
-    **Attempt to login to SSO of 360Learning ✅**
-    **Switch from homepage to timetable page ✅**
-    **Generating the screenshot...
+**Attempt to login to SSO of 360Learning  ✅**
+**Switch from homepage to timetable page  ✅**
+**Generating the screenshot...
     """
     )
     scrapper.get_screenshot(driver=driver)
