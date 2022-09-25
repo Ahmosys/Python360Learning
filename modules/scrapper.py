@@ -5,7 +5,6 @@ from datetime import date
 
 from dotenv import load_dotenv
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
@@ -58,7 +57,7 @@ def get_timetable_page(
 
 def get_date_week(driver: webdriver.Chrome):
     logging.debug("Retrieves the start and end date of the week")
-    week_date = driver.find_elements(By.ID, "Jour")
+    week_date = driver.find_elements(By.CLASS_NAME, "Jour")
     day_start_week = week_date[0].text
     day_end_week = week_date[4].text
     return day_start_week, day_end_week
