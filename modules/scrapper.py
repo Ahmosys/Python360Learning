@@ -4,7 +4,6 @@ from datetime import date
 
 from dotenv import load_dotenv
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
@@ -18,12 +17,11 @@ def init():
         datefmt="%d-%b-%y %H:%M:%S",
     )
     opt = webdriver.ChromeOptions()
-    s = Service("chromedriver.exe")
-    # opt.binary_location = os.getenv("GOOGLE_CHROME_SHIM")
+    opt.binary_location = os.getenv("GOOGLE_CHROME_SHIM")
     opt.add_argument("headless")
     opt.add_argument("--disable-dev-shm-usage")
     opt.add_experimental_option("excludeSwitches", ["enable-logging"])
-    driver = webdriver.Chrome(options=opt, service=s)
+    driver = webdriver.Chrome(options=opt)
     driver_wait = WebDriverWait(driver, 10)  # Timeout value (explicit wait)
     return driver, driver_wait
 
