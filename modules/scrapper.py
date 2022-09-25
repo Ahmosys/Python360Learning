@@ -18,11 +18,12 @@ def init():
         format="%(asctime)s - %(message)s",
         datefmt="%d-%b-%y %H:%M:%S",
     )
-    s = Service("chromedriver.exe")
     opt = webdriver.ChromeOptions()
+    opt.binary_location = os.getenv("GOOGLE_CHROME_SHIM")
     opt.add_argument("headless")
+    opt.add_argument("--disable-dev-shm-usage")
     opt.add_experimental_option("excludeSwitches", ["enable-logging"])
-    driver = webdriver.Chrome(service=s, options=opt)
+    driver = webdriver.Chrome(options=opt)
     driver_wait = WebDriverWait(driver, 10)  # Timeout value (explicit wait)
     return driver, driver_wait
 
