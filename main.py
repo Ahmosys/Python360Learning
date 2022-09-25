@@ -46,15 +46,15 @@ async def get_timetable(ctx, *, date: str = None):
     scrapper.login(driver=driver)
     await message.edit(
         content="""
-**Attempt to login to SSO of 360Learning  ✅**
+**Attempt to login to SSO of 360Learning :white_check_mark:**
 **Switch from homepage to timetable page...**
     """
     )
     scrapper.get_timetable_page(driver=driver, driver_wait=driver_wait, date_value=date)
     await message.edit(
         content="""
-**Attempt to login to SSO of 360Learning  ✅**
-**Switch from homepage to timetable page  ✅**
+**Attempt to login to SSO of 360Learning :white_check_mark:**
+**Switch from homepage to timetable page :white_check_mark:**
 **Generating the screenshot...**
     """
     )
@@ -62,15 +62,15 @@ async def get_timetable(ctx, *, date: str = None):
     scrapper.get_screenshot(driver=driver)
     await message.edit(
         content="""
-**Attempt to login to SSO of 360Learning  ✅**
-**Switch from homepage to timetable page  ✅**
-**Generating the screenshot  ✅**
+**Attempt to login to SSO of 360Learning :white_check_mark:**
+**Switch from homepage to timetable page :white_check_mark:**
+**Generating the screenshot :white_check_mark:**
     """
     )
     await message.delete(delay=2)
     file = discord.File("timetable.png")
     em = discord.Embed(
-        title="Timetable 📅", description=f"Du {date_start_week} au {date_end_week}", timestamp=ctx.message.created_at, color=0x5570FE
+        title=":date: Timetable", description=f"Du {date_start_week} au {date_end_week}", timestamp=ctx.message.created_at, color=0x5570FE
     )
     em.set_image(url="attachment://timetable.png")
     em.set_footer(text=ctx.author)
