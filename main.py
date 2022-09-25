@@ -55,11 +55,11 @@ async def get_timetable(ctx, *, date: str = None):
         content="""
 **Attempt to login to SSO of 360Learning  ✅**
 **Switch from homepage to timetable page  ✅**
-**Generating the screenshot...
+**Generating the screenshot...**
     """
     )
     scrapper.get_screenshot(driver=driver)
-    await message.delete()
+    await message.delete(delay=2)
     file = discord.File("timetable.png")
     em = discord.Embed(
         title="Current timetable", timestamp=ctx.message.created_at, color=0x5570FE
