@@ -38,7 +38,9 @@ def login(driver: webdriver.Chrome):
     return True
 
 
-def get_timetable_page(driver: webdriver.Chrome, driver_wait: WebDriverWait, date_value: str):
+def get_timetable_page(
+    driver: webdriver.Chrome, driver_wait: WebDriverWait, date_value: str
+):
     logging.debug("Switch to the timetable page")
     driver_wait.until(
         ec.visibility_of_element_located((By.CLASS_NAME, "custom-link-container"))
@@ -48,7 +50,9 @@ def get_timetable_page(driver: webdriver.Chrome, driver_wait: WebDriverWait, dat
         format_date = date_value.split("/")
         format_date.reverse()
         final_date = "/".join(format_date)
-        driver.get(driver.current_url.replace(date.today().strftime("%m/%d"), f"{final_date}"))
+        driver.get(
+            driver.current_url.replace(date.today().strftime("%m/%d"), f"{final_date}")
+        )
     return True
 
 

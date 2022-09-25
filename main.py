@@ -13,45 +13,60 @@ client = commands.Bot(command_prefix=".", intents=discord.Intents.all())
 @client.event
 async def on_ready():
     await client.change_presence(
-        status=discord.Status.online, activity=discord.Game("For any issues ./ahmosys#6967")
+        status=discord.Status.online,
+        activity=discord.Game("For any issues ./ahmosys#6967"),
     )
 
 
 @client.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandNotFound):
-        await ctx.send("Mmmmmmh, I have the impression that this command does not exist.")
+        await ctx.send(
+            "Mmmmmmh, I have the impression that this command does not exist."
+        )
     elif isinstance(error, commands.MissingPermissions):
-            await ctx.send("You do not have the permissions to do this command.")
+        await ctx.send("You do not have the permissions to do this command.")
     elif isinstance(error, commands.CheckFailure):
         await ctx.send("Oops, you cannot use this command.")
     elif isinstance(error, commands.CommandOnCooldown):
-        await ctx.send(f"This command is on cooldown. Please wait {error.retry_after:.2f}s")
+        await ctx.send(
+            f"This command is on cooldown. Please wait {error.retry_after:.2f}s"
+        )
 
 
-@client.command(name="timetable", alias=["edt", "schedule"], description="Retrieve the timetable of the current week.")
+@client.command(
+    name="timetable",
+    alias=["edt", "schedule"],
+    description="Retrieve the timetable of the current week.",
+)
 @commands.cooldown(1, 60, commands.BucketType.user)
 async def get_timetable(ctx, *, date: str = None):
     driver, driver_wait = scrapper.init()
     message = await ctx.send("**Attempt to login to SSO of 360Learning...**")
     scrapper.login(driver=driver)
-    await message.edit(content="""
-                       **Attempt to login to SSO of 360Learning ✅**
-                       **Switch from homepage to timetable page...**
-                       """)
+    await message.edit(
+        content="""
+    **Attempt to login to SSO of 360Learning ✅**
+    **Switch from homepage to timetable page...**
+    """
+    )
     scrapper.get_timetable_page(driver=driver, driver_wait=driver_wait, date_value=date)
-    await message.edit(content="""
-                       **Attempt to login to SSO of 360Learning ✅**
-                       **Switch from homepage to timetable page ✅**
-                       **Generating the screenshot...
-                       """)
+    await message.edit(
+        content="""
+    **Attempt to login to SSO of 360Learning ✅**
+    **Switch from homepage to timetable page ✅**
+    **Generating the screenshot...
+    """
+    )
     scrapper.get_screenshot(driver=driver)
     await message.delete()
     file = discord.File("timetable.png")
-    em = discord.Embed(title="Current timetable", timestamp=ctx.message.created_at, color=0x5570FE)
+    em = discord.Embed(
+        title="Current timetable", timestamp=ctx.message.created_at, color=0x5570FE
+    )
     em.set_image(url="attachment://timetable.png")
-    em.set_footer(text = ctx.author)
+    em.set_footer(text=ctx.author)
     await ctx.send(embed=em, file=file)
-    
+
 
 client.run(os.getenv("DISCORD_TOKEN"))
