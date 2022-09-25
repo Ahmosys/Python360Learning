@@ -2,9 +2,9 @@ import logging
 import os
 from datetime import date
 
-
 from dotenv import load_dotenv
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
@@ -18,11 +18,12 @@ def init():
         datefmt="%d-%b-%y %H:%M:%S",
     )
     opt = webdriver.ChromeOptions()
-    opt.binary_location = os.getenv("GOOGLE_CHROME_SHIM")
+    s = Service("chromedriver.exe")
+    # opt.binary_location = os.getenv("GOOGLE_CHROME_SHIM")
     opt.add_argument("headless")
     opt.add_argument("--disable-dev-shm-usage")
     opt.add_experimental_option("excludeSwitches", ["enable-logging"])
-    driver = webdriver.Chrome(options=opt)
+    driver = webdriver.Chrome(options=opt, service=s)
     driver_wait = WebDriverWait(driver, 10)  # Timeout value (explicit wait)
     return driver, driver_wait
 
@@ -34,7 +35,6 @@ def login(driver: webdriver.Chrome):
     driver.find_element(By.ID, "username").send_keys(os.getenv("USER"))
     driver.find_element(By.ID, "password").send_keys(os.getenv("PASS"))
     driver.find_element(By.NAME, "submit").click()
-    return True
 
 
 def get_timetable_page(
@@ -52,18 +52,18 @@ def get_timetable_page(
         driver.get(
             driver.current_url.replace(date.today().strftime("%m/%d"), f"{final_date}")
         )
-    return True
 
 
 def get_date_week(driver: webdriver.Chrome):
     logging.debug("Retrieves the start and end date of the week")
-    week_date = driver.find_elements(By.CLASS_NAME, "Jour")
-    day_start_week = week_date[0].text
-    day_end_week = week_date[4].text
+    week_date = driver.find_elements(By.CLASS_NAME, "TCJour")
+    day_start_week = week_date[5].text
+    day_end_week = week_date[9].text
     return day_start_week, day_end_week
 
 
 def get_screenshot(driver: webdriver.Chrome):
     logging.debug("Taking the screenshot")
     driver.get_screenshot_as_file("timetable.png")
-    return True
+
+    

@@ -58,8 +58,8 @@ async def get_timetable(ctx, *, date: str = None):
 **Generating the screenshot...**
     """
     )
-    scrapper.get_screenshot(driver=driver)
     date_start_week, date_end_week = scrapper.get_date_week(driver=driver)
+    scrapper.get_screenshot(driver=driver)
     await message.edit(
         content="""
 **Attempt to login to SSO of 360Learning  ✅**
