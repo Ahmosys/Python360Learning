@@ -56,6 +56,14 @@ def get_timetable_page(
     return True
 
 
+def get_date_week(driver: webdriver.Chrome):
+    logging.debug("Retrieves the start and end date of the week")
+    week_date = driver.find_elements(By.ID, "Jour")
+    day_start_week = week_date[0].text
+    day_end_week = week_date[4].text
+    return day_start_week, day_end_week
+
+
 def get_screenshot(driver: webdriver.Chrome):
     logging.debug("Taking the screenshot")
     driver.get_screenshot_as_file("timetable.png")

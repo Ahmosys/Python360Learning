@@ -59,6 +59,7 @@ async def get_timetable(ctx, *, date: str = None):
     """
     )
     scrapper.get_screenshot(driver=driver)
+    date_start_week, date_end_week = scrapper.get_date_week(driver=driver)
     await message.edit(
         content="""
 **Attempt to login to SSO of 360Learning  ✅**
@@ -69,7 +70,7 @@ async def get_timetable(ctx, *, date: str = None):
     await message.delete(delay=2)
     file = discord.File("timetable.png")
     em = discord.Embed(
-        title="Current timetable", timestamp=ctx.message.created_at, color=0x5570FE
+        title="Timetable 📅", description=f"Du {date_start_week} au {date_end_week}", timestamp=ctx.message.created_at, color=0x5570FE
     )
     em.set_image(url="attachment://timetable.png")
     em.set_footer(text=ctx.author)
