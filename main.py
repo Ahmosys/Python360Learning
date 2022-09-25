@@ -70,7 +70,7 @@ async def get_timetable(ctx, *, date: str = None):
     await message.delete(delay=2)
     file = discord.File("timetable.png")
     em = discord.Embed(
-        title=":date: Timetable", description=f"From *{date_start_week}* to *{date_end_week}*.", timestamp=ctx.message.created_at, color=0x5570FE
+        title=":date: Timetable", description=f"From __{date_start_week}__ to __{date_end_week}__.", timestamp=ctx.message.created_at, color=0x5570FE
     )
     em.set_image(url="attachment://timetable.png")
     em.set_footer(text=ctx.author)
