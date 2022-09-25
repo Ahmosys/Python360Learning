@@ -1,5 +1,7 @@
 import logging
 import os
+from datetime import date
+
 
 from dotenv import load_dotenv
 from selenium import webdriver
@@ -35,17 +37,21 @@ def login(driver: webdriver.Chrome):
     return True
 
 
-def get_timetable_page(driver: webdriver.Chrome, driver_wait: WebDriverWait):
+def get_timetable_page(driver: webdriver.Chrome, driver_wait: WebDriverWait, date_value: str):
     logging.debug("Switch to the timetable page")
     driver_wait.until(
         ec.visibility_of_element_located((By.CLASS_NAME, "custom-link-container"))
     ).click()
     driver.switch_to.window(driver.window_handles[1])
+    if date_value != None:
+        format_date = date_value.split("/")
+        format_date.reverse()
+        final_date = "/".join(format_date)
+        driver.get(driver.current_url.replace(date.today().strftime("%m/%d"), f"{final_date}"))
     return True
 
 
 def get_screenshot(driver: webdriver.Chrome):
     logging.debug("Taking the screenshot")
-    driver.get(driver.current_url.replace("09/24/2022", "10/22/2022"))
-    driver.get_screenshot_as_file("edt.png")
+    driver.get_screenshot_as_file("timetable.png")
     return True
